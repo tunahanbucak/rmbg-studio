@@ -1,5 +1,6 @@
 import time
 from typing import Any, Tuple, cast
+import torch
 from PIL import Image
 from transformers import pipeline
 from app.config import DEVICE, MODEL_ID
@@ -17,7 +18,13 @@ class SegmentationService:
             trust_remote_code=True,
             device=DEVICE,
         )
-        print("[INFO] Model hazir.")
+        # RMBG-1.4'ün özel MyPipe sınıfı __init__ içinde yalnızca cuda/cpu kontrolü
+        # yaptığı için Apple Silicon (MPS) cihazlarda modeli açıkça MPS GPU'ya taşıyoruz:
+        if DEVICE == "mps":
+            mps_device = torch.device("mps")
+            self.pipe.device = mps_device
+            self.pipe.model.to(mps_device)
+        print(f"[INFO] Model hazir ({DEVICE.upper()} aktif).")
 
     def remove_background(
         self,
