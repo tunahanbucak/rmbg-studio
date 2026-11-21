@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+python-multipart
+transformers>=4.40.0,<5.0.0
+torch
+torchvision
+pillow
+numpy
+scikit-image
+huggingface-hub

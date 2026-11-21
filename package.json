@@ -1,0 +1,12 @@
+{
+  "name": "ai-background-studio-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "RMBG-1.4 AI Background Studio (FastAPI Backend + Next.js Frontend)",
+  "scripts": {
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "backend/.venv/bin/uvicorn main:app --app-dir backend --host 0.0.0.0 --port 8000 --reload",
+    "dev": "npm --prefix frontend run dev"
+  }
+}
+
