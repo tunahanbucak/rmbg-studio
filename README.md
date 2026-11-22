@@ -1,5 +1,8 @@
 # RMBG Studio
 
+**Canlı Uygulama (Frontend - Vercel):** [https://rmbg-studio.vercel.app](https://rmbg-studio.vercel.app)  
+**Canlı AI Servisi (Backend - Modal Serverless):** [https://tunahanbucak--rmbg-studio-api-fastapi-app.us-east.modal.run/docs](https://tunahanbucak--rmbg-studio-api-fastapi-app.us-east.modal.run/docs)
+
 Hugging Face üzerindeki **`briaai/RMBG-1.4`** modelini kullanarak fotoğrafların arka planını ayıran (`Alpha Matting`), kenar iyileştirmesi (`Post-Processing`) yapan ve tarayıcı üzerinde arka plan/ışık düzenlemesi sunan Full-Stack (FastAPI + Next.js) web uygulaması.
 
 Derin öğrenme eğitimim kapsamında, hazır bir Hugging Face modelini gerçek bir ürün mimarisiyle servis etmek amacıyla geliştirilmiştir.
@@ -78,6 +81,7 @@ AIBackgroundStudio/
 │   │   └── utils/
 │   │       └── image.py            # BytesIO, LUT eşikleme, Gaussian Blur ve Base64
 │   ├── Dockerfile                  # Konteyner dağıtım yapılandırması
+│   ├── modal_app.py                # Modal.com Serverless (4 vCPU / 4 GB RAM) bulut dağıtım dosyası
 │   ├── main.py                     # FastAPI uygulama giriş noktası
 │   └── requirements.txt            # Python paket bağımlılıkları (PyTorch & Transformers)
 │
