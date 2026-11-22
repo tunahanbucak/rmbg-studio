@@ -31,3 +31,10 @@ export async function fetchImageAsBlob(url: string): Promise<Blob> {
   }
   return response.blob();
 }
+
+export function warmUpBackendApi(): void {
+  // Serverless (Scale-to-Zero) sunucuyu kullanıcı fotoğraf seçerken arka planda uyandırır (Pre-Warming)
+  fetch(`${API_BASE_URL}/api/health`, { method: "GET" }).catch(() => {
+    // Sessiz başarısızlık: kullanıcı arayüzünü etkilemez
+  });
+}

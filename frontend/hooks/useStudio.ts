@@ -2,7 +2,11 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { STUDIO_GRADIENTS } from "@/constants/studio-presets";
-import { fetchImageAsBlob, removeBackgroundApi } from "@/services/api";
+import {
+  fetchImageAsBlob,
+  removeBackgroundApi,
+  warmUpBackendApi,
+} from "@/services/api";
 import {
   AspectRatioOption,
   BgType,
@@ -65,6 +69,11 @@ export function useStudio() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const customBgInputRef = useRef<HTMLInputElement>(null);
+
+  // Sayfa ilk açıldığında Modal Serverless sunucusunu arka planda sessizce uyandır (Pre-Warming)
+  useEffect(() => {
+    warmUpBackendApi();
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
