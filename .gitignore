@@ -26,3 +26,4 @@ next-env.d.ts
 .vscode/
 pyrefly.toml
 *.swp
+*.pdf
