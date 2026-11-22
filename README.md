@@ -142,3 +142,15 @@ Sunucu durumunu ve aktif donanım hızlandırıcısını (`MPS`, `CUDA`, `CPU`) 
 - `file` *(UploadFile)*: İşlenecek görüntü dosyası.
 - `threshold` *(int, varsayılan: `12`)*: Hâle temizliği eşik değeri (`0 - 250`).
 - `feather` *(float, varsayılan: `0.0`)*: Kenar yumuşatma yarıçapı (`0.0 - 10.0`).
+
+---
+
+## Bulut Dağıtımı (Deployment & Maliyet Optimizasyonu)
+
+Derin öğrenme modelleri (`PyTorch` + `briaai/RMBG-1.4`) çalışma zamanında ~1.5 GB RAM tükettiği için geleneksel 512 MB RAM'li ücretsiz web hosting servislerinde (ör. Render Free Tier) `Out of Memory (OOM)` sınırına takılır. Modelin orijinal kalitesinden ödün vermemek için **Serverless (Scale-to-Zero)** bulut mimarisi tercih edilmiştir:
+
+- **Frontend (Vercel):** Next.js uygulaması `frontend/` dizininden Vercel üzerine dağıtılmıştır ve `NEXT_PUBLIC_API_URL` üzerinden canlı backend ile haberleşir.
+- **Backend (Modal.com Serverless):** `backend/modal_app.py` yapılandırmasıyla FastAPI servisi **4 vCPU ve 4 GB RAM** üzerinde çalışır.
+  - **Sıfır Boşta Maliyet (Scale-to-Zero):** Sunucu yalnızca istek geldiğinde ayağa kalkar; 30 saniye hareketsizlik sonrasında (`scaledown_window=30`) otomatik uyku moduna geçerek kaynak tüketimini sıfırlar.
+  - **Hızlı Başlangıç (Pre-Cached Image):** `briaai/RMBG-1.4` ağırlıkları konteyner imajı oluşturulurken önbelleğe alındığı için soğuk başlangıçta (cold-start) model tekrar indirilmez.
+  - **Saniye Bazlı Fiyatlandırma:** Yalnızca aktif işlem süresi (saniye bazında) ücretlendirildiği için portfolyo/demo trafiğinde ücretsiz aylık kredi limiti içinde kalır.
