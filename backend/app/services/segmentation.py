@@ -12,7 +12,8 @@ class SegmentationService:
 
     def __init__(self) -> None:
         print(f"[INFO] Model yukleniyor: {MODEL_ID} (Device: {DEVICE.upper()})")
-        self.pipe: Any = pipeline(
+        pipeline_fn: Any = pipeline
+        self.pipe: Any = pipeline_fn(
             "image-segmentation",
             model=MODEL_ID,
             trust_remote_code=True,
